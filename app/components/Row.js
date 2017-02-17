@@ -12,11 +12,7 @@ const styles = StyleSheet.create({
   text: {
     marginLeft: 12,
     fontSize: 16,
-  },
-  photo: {
-    height: 40,
-    width: 40,
-    borderRadius: 20,
+    flex: 1
   },
 });
 

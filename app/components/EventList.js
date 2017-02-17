@@ -1,7 +1,9 @@
 import React, { Component, } from 'react'
 import { View, ListView, StyleSheet, Text } from 'react-native'
 import demoData from '../data/demoData'
+import meetupData from '../data/meetupData'
 import Row from './Row'
+import EventRow from './EventRow'
 import Header from './Header'
 import Footer from './Footer'
 import dataformatter from '../data/dataformatter'
@@ -9,11 +11,15 @@ import SectionHeader from './SectionHeader';
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     marginTop: 20,
+    width: 300
+  },
+  subcontainer: {
+    flex: 1,
+    
   },
   separator: {
-    flex: 1,
+    flex: 2,
     height: StyleSheet.hairlineWidth,
     backgroundColor: '#8E8E8E',
   },
@@ -34,30 +40,25 @@ class EventList extends Component {
     const getRowData = (dataBlob, sectionId, rowId) => dataBlob[`${rowId}`]
     const ds = new ListView.DataSource({
       rowHasChanged: (r1, r2) => r1 !== r2,
-      sectionHeaderHasChanged : (s1,s2) => s1 != s2,
-      getSectionData,
-      getRowData
     });
     
-    const {dataBlob, sectionIds, rowIds } = dataformatter(demoData);
-    
     this.state = {
-      dataSource: ds.cloneWithRowsAndSections( dataBlob, sectionIds, rowIds)
+      dataSource: ds.cloneWithRows(meetupData)
     };
     
   }
 
   render() {
       return (
-      <ListView
-        style={styles.container}
-        dataSource={this.state.dataSource}
-        renderRow={(data) => <Row {...data} />}
-        renderSeparator={(sectionId, rowId) => <View key={rowId} style={styles.separator} />}
-        renderHeader={() => <Header/>}
-        renderFooter={() => <Footer/>}
-        renderSectionHeader={(sectionData) => <SectionHeader {...sectionData} />}
-      />
+        <View style={styles.container}>
+            <ListView
+              style={styles.subcontainer}
+              dataSource={this.state.dataSource}
+              renderRow={(data) => <EventRow {...data} />}
+              renderSeparator={(sectionId, rowId) => <View key={rowId} style={styles.separator} />}
+              renderHeader={() => <Header/>}
+              renderFooter={() => <Footer/>}/>
+          </View>
     );
   }
 }
